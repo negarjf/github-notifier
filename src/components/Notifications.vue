@@ -2,44 +2,28 @@
     <div>
         <v-container>
             <v-layout row wrap justify-center>
-                <v-flex sm8>
+                <v-flex sm10>
                     <!-- swipe right section -->
-                    <v-card class="mb-5" v-if="itemsRight.length">
+                    <v-card class="mb-5">
                         <v-list class="pa-0">
-                            <template v-for="(item, index) in itemsRight">
+                            <template v-for="(item, index) in notifications">
                                 <SwipeoutItem
-                                        :item="item"
-                                        direction="right"
-                                        :id="`item-right-${item}`"
-                                        :key="`item-right-${item}`"
-                                        @transitionEnd="transitionEnd(itemsRight, index)"
+                                        :title="item.subject.title"
+                                        :url="item.subject.url"
+                                        :repository="item.repository.full_name"
+                                        :type="item.subject.type"
+                                        :id="item.id"
+                                        :key="item.id"
+                                        @transitionEnd="transitionEnd(notifications, index)"
                                 />
-                                <v-divider
-                                        v-if="index + 1 < itemsRight.length"
-                                        :key="`divider-right-${item}`"
-                                />
+                                <!--<v-divider-->
+                                        <!--v-if="index + 1 < notifications.length"-->
+                                        <!--:key="`divider-${item.id}`"-->
+                                <!--/>-->
                             </template>
                         </v-list>
                     </v-card>
 
-                    <!-- swipe left section -->
-                    <v-card class="mb-5" v-if="itemsLeft.length">
-                        <v-list class="pa-0">
-                            <template v-for="(item, index) in itemsLeft">
-                                <SwipeoutItem
-                                        :item="item"
-                                        direction="left"
-                                        :id="`item-left-${item}`"
-                                        :key="`item-left-${item}`"
-                                        @transitionEnd="transitionEnd(itemsLeft, index)"
-                                />
-                                <v-divider
-                                        v-if="index + 1 < itemsLeft.length"
-                                        :key="`divider-left-${item}`"
-                                />
-                            </template>
-                        </v-list>
-                    </v-card>
                 </v-flex>
             </v-layout>
 
@@ -50,9 +34,7 @@
 
 <script>
     import SwipeoutItem from '@/components/SwipeoutItem'
-
-    const itemsRight = [ 1, 2, 3, 4 ]
-    const itemsLeft = [ 5, 6, 7, 8 ]
+    import NotificationsService from '@/services/NotificationsService'
 
     export default {
         name: "Notifications",
@@ -61,20 +43,25 @@
         },
         data () {
             return {
-                itemsRight: itemsRight.slice(),
-                itemsLeft: itemsLeft.slice()
+                notifications: [],
             }
         },
+
+        created(){
+            NotificationsService.fetchAll().then(response =>{
+                console.log(response.data);
+                this.notifications = response.data;
+            }).catch(error=>{
+                console.log(error);
+            })
+        },
+
         methods: {
             transitionEnd (array, index) {
                 // Delete item from array after callback from SwipeoutItem
-                console.log('Delete item - ' + array[index])
+                console.log('Delete item - ' + array[index].subject.title)
                 array.splice(index, 1)
             },
-            resetData () {
-                this.itemsRight = itemsRight.slice()
-                this.itemsLeft = itemsLeft.slice()
-            }
         }
     }
 </script>
