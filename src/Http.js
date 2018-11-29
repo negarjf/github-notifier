@@ -12,7 +12,7 @@ if (token) {
 
 // Create axios instance
 let axiosInstance = axios.create({
-    baseURL: '',
+    baseURL: 'https://api.github.com/',
 });
 
 // Handle errors
