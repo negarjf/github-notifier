@@ -5,6 +5,7 @@ import auth from './middleware/auth'
 
 import Home from './views/Home.vue'
 import Auth from './views/Auth'
+import Logout from './views/Logout'
 
 Vue.use(Router)
 
@@ -25,6 +26,12 @@ const router = new Router({
 			name: 'login',
 			component: Auth
 		},
+        {
+            path: '/logout',
+            name: 'logout',
+            component: Logout
+        },
+
 		// {
 		//   path: '/about',
 		//   name: 'about',
