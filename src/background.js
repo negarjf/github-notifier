@@ -1,13 +1,12 @@
 'use strict'
 
-import {app, protocol, BrowserWindow} from 'electron'
+import {app, protocol, BrowserWindow, Menu} from 'electron'
 import {
     createProtocol,
     installVueDevtools
 } from 'vue-cli-plugin-electron-builder/lib'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
-
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -33,6 +32,7 @@ function createWindow() {
     win.on('closed', () => {
         win = null
     })
+
 }
 
 // Quit when all windows are closed.
@@ -60,7 +60,34 @@ app.on('ready', async () => {
         // Install Vue Devtools
         await installVueDevtools()
     }
-    createWindow()
+    createWindow();
+
+    const menuTemplate = [
+        {
+            label: 'file',
+            submenu: [
+                {
+                    label: 'Logout',
+                    click(){
+                        win.webContents.send('logout')
+                    }
+
+                },
+                {
+                    label: 'Exit',
+                    accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
+                    click(){
+                        app.quit();
+                    }
+                }
+            ]
+        }
+    ];
+
+    const menu = Menu.buildFromTemplate(menuTemplate);
+
+    Menu.setApplicationMenu(menu);
+
 })
 
 // Exit cleanly on request from parent process in development mode.
