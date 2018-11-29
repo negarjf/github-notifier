@@ -1,6 +1,6 @@
 'use strict'
 
-import {app, protocol, BrowserWindow, Menu} from 'electron'
+import {app, protocol, BrowserWindow, Menu, shell} from 'electron'
 import {
     createProtocol,
     installVueDevtools
@@ -67,6 +67,13 @@ app.on('ready', async () => {
             label: 'file',
             submenu: [
                 {
+                    label: 'Open GitHub',
+                    accelerator: 'CommandOrControl+G',
+                    click(){
+                        shell.openExternal('https://github.com/')
+                    }
+                },
+                {
                     label: 'Logout',
                     click(){
                         win.webContents.send('logout')
@@ -74,10 +81,24 @@ app.on('ready', async () => {
 
                 },
                 {
+                    type: 'separator',
+                },
+                {
                     label: 'Exit',
-                    accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
+                    accelerator: 'CommandOrControl+Q',
                     click(){
                         app.quit();
+                    }
+                }
+            ]
+        },
+        {
+            label: 'Help',
+            submenu: [
+                {
+                    label: 'How to login?',
+                    click(){
+                        shell.openExternal('https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/#creating-a-token')
                     }
                 }
             ]
