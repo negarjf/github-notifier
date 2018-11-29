@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-toolbar app>
+        <v-toolbar app color="grey lighten-3">
             <v-toolbar-title class="headline text-uppercase">
                 <span>GitHub</span>
                 <span class="font-weight-light">Notifier</span>
@@ -11,7 +11,6 @@
         <v-content>
             <router-view/>
             <v-bottom-nav
-                    :active.sync="bottomNav"
                     color="primary"
                     :value="true"
                     app
@@ -58,3 +57,9 @@
         }
     }
 </script>
+
+<style lang="scss">
+    .application{
+        background: #f5f5f5 !important;
+    }
+</style>
