@@ -20,6 +20,7 @@
                                         <!--v-if="index + 1 < notifications.length"-->
                                         <!--:key="`divider-${item.id}`"-->
                                 <!--/>-->
+                                
                             </template>
                         </v-list>
                     </v-card>
