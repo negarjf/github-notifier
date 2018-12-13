@@ -1,18 +1,14 @@
 <template>
-    <HelloWorld/>
+    <notifications></notifications>
 </template>
 
 <script>
-    import HelloWorld from '../components/HelloWorld'
+    import Notifications from '@/components/Notifications';
 
     export default {
         components: {
-            HelloWorld
+            Notifications
         },
-        created(){
-            this.$electron.ipcRenderer.on('logout', () => {
-                this.$router.push('/logout')
-            })
-        }
+
     }
 </script>
